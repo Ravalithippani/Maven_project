@@ -1024,3 +1024,32 @@ service nginx start
 cd /var/www/html
 nano index.html
 service nginx restart
+
+
+//mongodb
+version: '3.8'
+
+services:
+  app:
+    container_name: my_node_app
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      MONGO_URL: mongodb://mongo:27017/mydatabase
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
